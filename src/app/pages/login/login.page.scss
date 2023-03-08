@@ -22,10 +22,12 @@ ion-content{
     width: 70%;
 }
 
+
+
 ion-input.email {
     --background: transparent;
-    --color: #fff;
-    --placeholder-color: black;
+    color: #2E3F53;
+    --placeholder-color: #2E3F53;
     --placeholder-opacity: .8;
     
     border: 2px solid #2E3F53 !important;
@@ -41,14 +43,14 @@ ion-input.email {
 
 ion-input.password {
     --background: transparent;
-    --color: #fff;
-    --placeholder-color: black;
+    color: #2E3F53;
+    --placeholder-color: #2E3F53;
     --placeholder-opacity: .8;
     
     border: 2px solid #2E3F53 !important;
     border-radius: 10px;
 
-    margin-top: 10px;
+    margin-top: 15px;
   
     --padding-bottom: 10px;
     --padding-end: 10px;
@@ -59,7 +61,7 @@ ion-input.password {
 .button{
     display: block;
     margin: 0 auto 0 auto;
-    margin-top: 10px;
+    margin-top: 15px;
     width: 84%;
 }
 

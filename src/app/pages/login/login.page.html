@@ -1,21 +1,24 @@
 <ion-content>
 
     <img class="image" src = "/assets/trangko.png"/>
+    <form [formGroup]="validationFormUser" (ngSubmit)="LoginUser(validationFormUser.value)">
+        <div class="input">
 
-    <div class="input">
+            <ion-input type="text" name="email" formControlName="email" placeholder="Email" class="email"></ion-input>
+        
 
-        <ion-input placeholder="Email" class="email"></ion-input>
+            <ion-input type="password" name="password" formControlName="password" placeholder="Password" class="password"></ion-input>
+        
 
-        <ion-input placeholder="Password" class="password"></ion-input>
-    
-    </div>
+        </div>
 
-    <div class="button">
-        <ion-button>Login</ion-button>
-    </div>
+        <div class="button">
+            <ion-button type="submit" [disabled]="!validationFormUser.valid">Login</ion-button>
+        </div>
+    </form>
 
     <div class="register">
-        <ion-button fill="clear">Register</ion-button>
+        <ion-button routerLink="/register" fill="clear">Register</ion-button>
     </div>
 
 </ion-content>

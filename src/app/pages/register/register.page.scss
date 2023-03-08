@@ -24,8 +24,8 @@ ion-content{
 
 ion-input.name {
     --background: transparent;
-    --color: #fff;
-    --placeholder-color: black;
+    color: #2E3F53;
+    --placeholder-color: #2E3F53;
     --placeholder-opacity: .8;
     
     border: 2px solid #2E3F53 !important;
@@ -39,8 +39,8 @@ ion-input.name {
 
 ion-input.email {
     --background: transparent;
-    --color: #fff;
-    --placeholder-color: black;
+    color: #2E3F53;
+    --placeholder-color: #2E3F53;
     --placeholder-opacity: .8;
     
     border: 2px solid #2E3F53 !important;
@@ -56,8 +56,8 @@ ion-input.email {
 
 ion-input.password {
     --background: transparent;
-    --color: #fff;
-    --placeholder-color: black;
+    color: #2E3F53;
+    --placeholder-color: #2E3F53;
     --placeholder-opacity: .8;
     
     border: 2px solid #2E3F53 !important;
@@ -71,10 +71,10 @@ ion-input.password {
     --padding-top: 10px;
 }
 
-ion-input.confpass {
+ion-input.phone {
     --background: transparent;
-    --color: #fff;
-    --placeholder-color: black;
+    color: #2E3F53;
+    --placeholder-color: #2E3F53;
     --placeholder-opacity: .8;
     
     border: 2px solid #2E3F53 !important;
