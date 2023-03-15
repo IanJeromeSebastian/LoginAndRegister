@@ -22,7 +22,10 @@ ion-content{
     width: 70%;
 }
 
-
+.error_message{
+  font-size: 10px;
+  color: red;
+}
 
 ion-input.email {
     --background: transparent;

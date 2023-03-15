@@ -5,10 +5,22 @@
         <div class="input">
 
             <ion-input type="text" name="email" formControlName="email" placeholder="Email" class="email"></ion-input>
-        
+            <div>
+                <ng-container *ngFor="let validation of validationUserMessage.email">
+                      <div class="error_message" *ngIf="validationFormUser.get('email')?.hasError(validation.type) && (validationFormUser.get('email')?.dirty || validationFormUser.get('email')?.touched)">
+                         {{validation.message}}
+                      </div>
+                </ng-container>
+            </div>
 
             <ion-input type="password" name="password" formControlName="password" placeholder="Password" class="password"></ion-input>
-        
+            <div>
+                <ng-container *ngFor="let validation of validationUserMessage.password">
+                     <div class="error_message" *ngIf="validationFormUser.get('password')?.hasError(validation.type) && (validationFormUser.get('password')?.dirty || validationFormUser.get('password')?.touched)">
+                        {{validation.message}}
+                     </div>
+                 </ng-container>
+            </div>
 
         </div>
 

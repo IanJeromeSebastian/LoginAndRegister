@@ -17,17 +17,18 @@ export class LoginPage implements OnInit {
       {type:"pattern", message:"Your Email is Incorrect"}
     ],
     password:[
-      {type:"required", message:"Please Enter Your Email"},
+      {type:"required", message:"The Password must be at least 8 characters or more"},
       {type:"minLength", message:"The Password must be at least 8 characters or more"}
     ]
   }
 
   validationFormUser: FormGroup;
 
-  constructor(public formbuider: FormBuilder, public authservice: AuthService, private router: Router, private nav: NavController) {}
+  constructor(public formbuilder: FormBuilder, public authservice: AuthService
+    , private router: Router, private nav: NavController) {}
 
   ngOnInit() {
-    this.validationFormUser = this.formbuider.group({
+    this.validationFormUser = this.formbuilder.group({
       email: new FormControl('', Validators.compose([
         Validators.required,
         Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')

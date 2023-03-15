@@ -19,8 +19,8 @@ export class RegisterPage implements OnInit {
       {type:"pattern", meesage:"Please the Email Entered is Incorrect. Try again.."}
     ],
     password: [
-      {type: "required", message: "password is required here"},
-      {type:"minlength", message: "Passwrd must be at least 6 character"}
+      {type: "required", message: "Password must be at least 8 character"},
+      {type:"minlength", message: "Password must be at least 8 character"}
     ]
  }
 
@@ -55,7 +55,6 @@ export class RegisterPage implements OnInit {
   }
 
   registerUser(value: any){
-    this.showalert();
     console.log("Register Successfully");
     try {
       this.authService.userRegistration(value).then(response =>{
