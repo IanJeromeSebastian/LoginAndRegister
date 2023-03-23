@@ -2,11 +2,19 @@ import { Injectable } from '@angular/core';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import {AngularFireAuth} from '@angular/fire/compat/auth'
+
+export interface UserPro{
+  username: string;
+  uid: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  [x: string]: any;
+  //[x: string]: any;
+
+  private user : UserPro;
 
   constructor(public auth: AngularFireAuth) { }
 
@@ -17,6 +25,14 @@ export class AuthService {
         (        error: any) => reject(error)
       )
     })
+   }
+
+   setUser(user : UserPro){
+    return this.user = user;
+   }
+
+   getUID(): string{
+    return this.user.uid;
    }
 
   userRegistration(value: any){

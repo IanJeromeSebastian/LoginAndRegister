@@ -3,6 +3,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { AuthService } from 'src/app/services/auth.service'
 import { NavController } from '@ionic/angular';
 import { Router } from '@angular/router';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 
 @Component({
   selector: 'app-login',
@@ -25,7 +26,7 @@ export class LoginPage implements OnInit {
   validationFormUser: FormGroup;
 
   constructor(public formbuilder: FormBuilder, public authservice: AuthService
-    , private router: Router, private nav: NavController) {}
+    , private router: Router, private nav: NavController, private firestore: AngularFirestore) {}
 
   ngOnInit() {
     this.validationFormUser = this.formbuilder.group({
@@ -46,7 +47,33 @@ export class LoginPage implements OnInit {
     try{
       this.authservice.loginFireauth(value).then(resp=>{
         console.log(resp);
-        this.router.navigate(['home'])
+       // this.router.navigate(['tabs'])
+
+        if(resp.user){
+
+          this.authservice.setUser({
+            username : resp.user.displayName,
+            uid: resp.user.uid
+          })
+   
+         const userProfile = this.firestore.collection('profile').doc(resp.user.uid);
+   
+          userProfile.get().subscribe(result=>{
+   
+           if(result.exists){
+             this.nav.navigateForward(['tabs']);
+           }else{
+   
+             this.firestore.doc(`profile/${this.authservice.getUID()}`).set({
+               name: resp.user.displayName,
+               email: resp.user.email
+             });
+   
+              this.nav.navigateForward(['tabs']);
+           }
+          })
+        }
+
       })
     }catch(err){
       console.log(err);

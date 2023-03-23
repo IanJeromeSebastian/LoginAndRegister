@@ -14,15 +14,6 @@
          </ng-container>
       </div>
 
-      <ion-input type="text" name="phone" formControlName="phone" placeholder="Phone" class="phone"></ion-input>
-      <div>
-        <ng-container *ngFor="let validation of validationMessages.phone">
-          <div class="error_message" *ngIf="ValidationFormUSer.get('phone')?.hasError(validation.type) && (ValidationFormUSer.get('phone')?.dirty || ValidationFormUSer.get('phone')?.touched)">
-              {{validation.message}}
-          </div>
-         </ng-container>
-      </div>
-
       <ion-input type="text" name="email" formControlName="email" placeholder="Email" class="email"></ion-input>
       <div>
         <ng-container *ngFor="let validation of validationMessages.email">
