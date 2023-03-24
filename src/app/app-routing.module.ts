@@ -34,6 +34,10 @@ const routes: Routes = [
     path: 'setting',
     loadChildren: () => import('./pages/setting/setting.module').then( m => m.SettingPageModule)
   },
+  {
+    path: 'uploadimage',
+    loadChildren: () => import('./pages/uploadimage/uploadimage.module').then( m => m.UploadimagePageModule)
+  },
 ];
 @NgModule({
   imports: [
