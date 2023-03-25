@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/compat/firestore';
+import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/compat/firestore';
 import { AngularFireStorage, AngularFireUploadTask } from '@angular/fire/compat/storage';
 import { Router } from '@angular/router';
 import { LoadingController } from '@ionic/angular';
 import { Observable } from 'rxjs';
+import { AuthService } from 'src/app/services/auth.service'
 
 export interface imageData{
   fileName: string;
@@ -25,9 +26,13 @@ export class UploadimagePage implements OnInit {
   private imageCollection: AngularFirestoreCollection<imageData>;
   imagefile: Observable<imageData[]>;
   imageUpload: AngularFireUploadTask;
+  percentage: Observable<number | undefined>;
+  snapshot: Observable<any>;
+  FileImageUPload: Observable<any>;
+  UserUID: AngularFirestoreDocument;
 
   constructor(private database: AngularFirestore, private storage: AngularFireStorage, 
-    private router : Router, private loading :LoadingController) { 
+    private router : Router, private loading :LoadingController, private authservice: AuthService) { 
     this.isLoading = false;
     this.isLoaded = false;
     this.imageCollection = this.database.collection<imageData>('loginUploads');
@@ -37,7 +42,7 @@ export class UploadimagePage implements OnInit {
   ngOnInit() {
   }
 
-  async uploadImagetoFirebase(event : any){
+  uploadImagetoFirebase(event : any){
 
     // const load = await this.loading.create({
     //   spinner:'dots',
@@ -59,7 +64,19 @@ export class UploadimagePage implements OnInit {
     var fileRef = this.storage.ref(path); 
  
     this.imageUpload = this.storage.upload(path, fileName);
-    // this.loading.dismiss();
+    // this.loading.dismiss(null, undefined);
+
+    this.percentage = this.imageUpload.percentageChanges();
+
+    this.imageUpload.then( res=>{
+      var imagefile = res.task.snapshot.ref.getDownloadURL();
+      imagefile.then( downloadableUrl=>{
+        console.log("URL", downloadableUrl);
+        this.database.doc(`profile/${this.authservice.getUID()}`).update({
+          photoUrl: downloadableUrl
+        });
+      })
+    })
 
   }
 
