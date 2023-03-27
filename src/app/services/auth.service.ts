@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import {AngularFireAuth} from '@angular/fire/compat/auth'
+import { Router } from '@angular/router';
 
 export interface UserPro{
   username: string;
@@ -16,7 +17,8 @@ export class AuthService {
 
   private user : UserPro;
 
-  constructor(public auth: AngularFireAuth) { }
+  constructor(public auth: AngularFireAuth, private router: Router,
+    public afAuth: AngularFireAuth ) { }
 
   loginFireauth(value: any){
     return new Promise<any> ( (resolve, reject)=>{
@@ -43,4 +45,10 @@ export class AuthService {
       )
     })
   }
+
+  logOut(){
+    this.afAuth.signOut().then(()=>{
+    })
+  }
+
 }
