@@ -4,6 +4,11 @@
   </ion-toolbar>
 </ion-header>
 <ion-content>
+  
+  <ion-item *ngIf="hasBiometrics">
+    <ion-label class="biometric">Biometric Login</ion-label>
+    <ion-toggle slot="end" [(ngModel)]="isBiometricsEnabled" (ionChange)="toggleFunction()" [checked]="isBiometricsEnabled"></ion-toggle>
+  </ion-item>
 
   <div class="button">
     <ion-button (click)="gotoLogout()">Logout</ion-button>

@@ -4,6 +4,7 @@ import { AuthService } from 'src/app/services/auth.service'
 import { NavController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { BiometryType, NativeBiometric } from "capacitor-native-biometric";
 
 @Component({
   selector: 'app-login',
@@ -11,6 +12,8 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage implements OnInit {
+
+  toggleTrue: boolean;
 
   validationUserMessage = {
     email:[
@@ -29,6 +32,7 @@ export class LoginPage implements OnInit {
     , private router: Router, private nav: NavController, private firestore: AngularFirestore) {}
 
   ngOnInit() {
+   this.buttonBio()
     this.validationFormUser = this.formbuilder.group({
       email: new FormControl('', Validators.compose([
         Validators.required,
@@ -41,11 +45,18 @@ export class LoginPage implements OnInit {
     })
   }
 
+  buttonBio(){
+    this.toggleTrue = this.authservice.getToggle();
+    console.log("dsdfvsdhgieufnvf", this.toggleTrue)
+  }
+
   LoginUser(value: any){
-    console.log("Login Successfully");
+    console.log("Login Successfully", value);
 
     try{
       this.authservice.loginFireauth(value).then(resp=>{
+        sessionStorage.setItem("Username", value.email),
+        sessionStorage.setItem("Password", value.password)
         console.log(resp);
        // this.router.navigate(['tabs'])
 
@@ -80,5 +91,39 @@ export class LoginPage implements OnInit {
     }
   }
 
+  async biometrics(){
+    const result = await NativeBiometric.isAvailable();
+
+  if(!result.isAvailable) return;
+
+  const isFaceID = result.biometryType == BiometryType.FACE_ID;
+    
+  const verified = await NativeBiometric.verifyIdentity({
+    reason: "For easy log in",
+    title: "Log in",
+    subtitle: "Maybe add subtitle here?",
+    description: "Maybe a description too?",
+  })
+    .then(() => true)
+    .catch(() => false);
+
+  if(!verified) return;
+
+  const credentials = await NativeBiometric.getCredentials({
+    server: "trangko",
+  });
+
+  if(credentials.username){
+    this.LoginUser({
+      email: credentials.username,
+      password: credentials.password
+    })
+  }
+
+  }
+
+  toggle(){
+    this.toggleTrue = this.authservice.getToggle();
+  }
 
 }

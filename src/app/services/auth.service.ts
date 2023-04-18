@@ -16,6 +16,7 @@ export class AuthService {
   //[x: string]: any;
 
   private user : UserPro;
+  toggle: boolean;
 
   constructor(public auth: AngularFireAuth, private router: Router,
     public afAuth: AngularFireAuth ) { }
@@ -49,6 +50,14 @@ export class AuthService {
   logOut(){
     this.afAuth.signOut().then(()=>{
     })
+  }
+
+  setToggle(toggle : boolean){
+    return this.toggle = toggle
+  }
+
+  getToggle(){
+    return this.toggle;
   }
 
 }
