@@ -23,6 +23,7 @@ export class SettingPage implements OnInit {
   public hasBiometrics: boolean = true;
   public isBiometricsEnabled: boolean = false;
   public toggle : boolean;
+  public getToggle: any;
 
   constructor(private router: Router, private nav: NavController,
      public afAuth: AngularFireAuth, public authservice: AuthService,
@@ -32,6 +33,22 @@ export class SettingPage implements OnInit {
     if(firebase.apps.length == 0){
       firebase.initializeApp(this.firebaseconfig);
     }
+    this.getToggle = sessionStorage.getItem("userToggle")
+
+    if(this.getToggle == "true"){
+      this.isBiometricsEnabled = true;
+      this.enableBiometrics();
+    }else{
+      this.isBiometricsEnabled = false;
+      this.disableBiometrics();
+    }
+
+    this.initiateBiometrics();
+  }
+
+  change(){
+    this.getToggle = this.isBiometricsEnabled;
+    sessionStorage.setItem("toggleButton", this.getToggle)
   }
 
   async initiateBiometrics(){
@@ -52,33 +69,33 @@ export class SettingPage implements OnInit {
 
   }
 
-  toggleFunction(){
-    this.authservice.setToggle(
-      this.isBiometricsEnabled
-    )
-    console.log("fsdhfbsdiucnsdif", this.authservice.getToggle());
-    console.log("fsdhfbsdiucnsdif", this.isBiometricsEnabled);
-    this.afd.list('Biometrics/').push(this.isBiometricsEnabled);
+  // toggleFunction(){
+  //   this.authservice.setToggle(
+  //     this.isBiometricsEnabled
+  //   )
+  //   console.log("fsdhfbsdiucnsdif", this.authservice.getToggle());
+  //   console.log("fsdhfbsdiucnsdif", this.isBiometricsEnabled);
+  //   this.afd.list('Biometrics/').push(this.isBiometricsEnabled);
 
-    const db = this.afd.database;
-    const ref = db.ref('Biometrics/');
+  //   const db = this.afd.database;
+  //   const ref = db.ref('Biometrics/');
 
-    ref.on('value', (snapshotChanges)=>{
-      console.log("dataaaaaaaaa", snapshotChanges.val());
-      this.toggle = snapshotChanges.val();
-      console.log("dataaaaaaaaaToggleeee", this.toggle);
+  //   ref.on('value', (snapshotChanges)=>{
+  //     console.log("dataaaaaaaaa", snapshotChanges.val());
+  //     this.toggle = snapshotChanges.val();
+  //     console.log("dataaaaaaaaaToggleeee", this.toggle);
         
-    if (this.toggle = true){
-      this.isBiometricsEnabled = true
-    }
-    else{
-      this.isBiometricsEnabled = false
-    }
+  //   if (this.toggle == true){
+  //     this.isBiometricsEnabled = true
+  //   }
+  //   else{
+  //     this.isBiometricsEnabled = false
+  //   }
 
-    })
+  //   })
 
     
-  }
+  // }
 
   gotoLogout(){
     this.authservice.logOut();

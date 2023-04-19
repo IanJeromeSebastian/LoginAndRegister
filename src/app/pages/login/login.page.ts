@@ -13,7 +13,10 @@ import { BiometryType, NativeBiometric } from "capacitor-native-biometric";
 })
 export class LoginPage implements OnInit {
 
-  toggleTrue: boolean;
+  public email: any;
+  public password: any;
+  public toggleTrue: boolean = false;
+  public getToggle: any;
 
   validationUserMessage = {
     email:[
@@ -32,7 +35,7 @@ export class LoginPage implements OnInit {
     , private router: Router, private nav: NavController, private firestore: AngularFirestore) {}
 
   ngOnInit() {
-   this.buttonBio()
+  //  this.buttonBio()
     this.validationFormUser = this.formbuilder.group({
       email: new FormControl('', Validators.compose([
         Validators.required,
@@ -43,12 +46,19 @@ export class LoginPage implements OnInit {
         Validators.minLength(8)
       ]))
     })
+    this.getToggle = sessionStorage.getItem("toggleButton")
+      if(this.getToggle == "true"){
+        this.toggleTrue = true;
+      }else{
+       this.toggleTrue = false
+      }
+
   }
 
-  buttonBio(){
-    this.toggleTrue = this.authservice.getToggle();
-    console.log("dsdfvsdhgieufnvf", this.toggleTrue)
-  }
+  // buttonBio(){
+  //   this.toggleTrue = this.authservice.getToggle();
+  //   console.log("dsdfvsdhgieufnvf", this.toggleTrue)
+  // }
 
   LoginUser(value: any){
     console.log("Login Successfully", value);
@@ -59,6 +69,18 @@ export class LoginPage implements OnInit {
         sessionStorage.setItem("Password", value.password)
         console.log(resp);
        // this.router.navigate(['tabs'])
+       sessionStorage.getItem('Username');
+       this.getToggle = sessionStorage.getItem('Username');
+       if (this.getToggle != this.email){
+        sessionStorage.setItem("toggleButton", "false")
+       }
+       else{
+        sessionStorage.setItem("Username", this.email)
+        sessionStorage.setItem("Password", this.password)
+        this.email='';
+        this.password = '';
+        this.nav.navigateForward(['tabs']);
+       }
 
         if(resp.user){
 

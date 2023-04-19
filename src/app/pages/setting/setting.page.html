@@ -7,7 +7,7 @@
   
   <ion-item *ngIf="hasBiometrics">
     <ion-label class="biometric">Biometric Login</ion-label>
-    <ion-toggle slot="end" [(ngModel)]="isBiometricsEnabled" (ionChange)="toggleFunction()" [checked]="isBiometricsEnabled"></ion-toggle>
+    <ion-toggle slot="end" [(ngModel)]="isBiometricsEnabled" (ionChange)="change()" [checked]="isBiometricsEnabled"></ion-toggle>
   </ion-item>
 
   <div class="button">
