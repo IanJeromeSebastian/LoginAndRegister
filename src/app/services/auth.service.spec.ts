@@ -1,6 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 
 import { AuthService } from './auth.service';
+import { Storage } from '@ionic/storage';
 
 describe('AuthService', () => {
   let service: AuthService;

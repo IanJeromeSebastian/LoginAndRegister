@@ -5,6 +5,8 @@ import { NavController } from '@ionic/angular';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AuthService } from 'src/app/services/auth.service'
 import { BiometryType, NativeBiometric } from "capacitor-native-biometric";
+import {AngularFireDatabase, snapshotChanges} from '@angular/fire/compat/database';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-setting',
@@ -20,9 +22,11 @@ export class SettingPage implements OnInit {
 
   public hasBiometrics: boolean = true;
   public isBiometricsEnabled: boolean = false;
+  public toggle : boolean;
 
   constructor(private router: Router, private nav: NavController,
-     public afAuth: AngularFireAuth, public authservice: AuthService ) { }
+     public afAuth: AngularFireAuth, public authservice: AuthService,
+     private afd: AngularFireDatabase) { }
 
   ngOnInit() {
     if(firebase.apps.length == 0){
@@ -54,6 +58,26 @@ export class SettingPage implements OnInit {
     )
     console.log("fsdhfbsdiucnsdif", this.authservice.getToggle());
     console.log("fsdhfbsdiucnsdif", this.isBiometricsEnabled);
+    this.afd.list('Biometrics/').push(this.isBiometricsEnabled);
+
+    const db = this.afd.database;
+    const ref = db.ref('Biometrics/');
+
+    ref.on('value', (snapshotChanges)=>{
+      console.log("dataaaaaaaaa", snapshotChanges.val());
+      this.toggle = snapshotChanges.val();
+      console.log("dataaaaaaaaaToggleeee", this.toggle);
+        
+    if (this.toggle = true){
+      this.isBiometricsEnabled = true
+    }
+    else{
+      this.isBiometricsEnabled = false
+    }
+
+    })
+
+    
   }
 
   gotoLogout(){
